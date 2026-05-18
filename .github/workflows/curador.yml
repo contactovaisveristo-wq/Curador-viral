@@ -43,7 +43,7 @@ jobs:
           python curador_completo.py
 
       - name: Fazer upload dos shorts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: shorts-${{ github.run_id }}
           path: shorts_*/
