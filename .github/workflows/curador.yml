@@ -1,0 +1,50 @@
+name: Curador Viral
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Todos os dias às 8h UTC
+  workflow_dispatch:       # Permite correr manualmente
+
+jobs:
+  curador:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: |
+          pip install google-api-python-client python-dotenv google-auth-oauthlib yt-dlp
+
+      - name: Instalar ffmpeg
+        run: |
+          sudo apt-get install -y ffmpeg
+
+      - name: Criar ficheiro .env
+        run: |
+          echo "YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}" > .env
+
+      - name: Criar client_secrets.json
+        run: |
+          echo '${{ secrets.YOUTUBE_CLIENT_SECRETS }}' > client_secrets.json
+
+      - name: Criar token_youtube.json
+        run: |
+          echo '${{ secrets.YOUTUBE_TOKEN }}' > token_youtube.json
+
+      - name: Correr pipeline
+        run: |
+          python curador_completo.py
+
+      - name: Fazer upload dos shorts
+        uses: actions/upload-artifact@v3
+        with:
+          name: shorts-${{ github.run_id }}
+          path: shorts_*/
+          retention-days: 7  # Guarda os shorts por 7 dias
