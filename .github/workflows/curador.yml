@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout do repositório
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Instalar Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -47,4 +47,4 @@ jobs:
         with:
           name: shorts-${{ github.run_id }}
           path: shorts_*/
-          retention-days: 7  # Guarda os shorts por 7 dias
+          retention-days: 7
