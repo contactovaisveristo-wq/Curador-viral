@@ -1,0 +1,8 @@
+.env
+token_youtube.json
+client_secrets.json
+*.mp4
+tendencias_*.json
+shorts_*/
+temp_*.mp4
+log_*.txt
